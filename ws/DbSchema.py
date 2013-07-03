@@ -2,7 +2,7 @@ import sqlalchemy
 import logging
 
 class DbSchema(object):
-    def __init__(self, db_user, db_password, db_host, db_port, db_name):
+    def __init__(self, db_user, db_password, db_host, db_port, db_name, test = False):
         self.log = logging.getLogger(name = "DbSchema")
         self.db_user = db_user
         self.db_password = db_password
@@ -10,7 +10,8 @@ class DbSchema(object):
         self.db_port = db_port
         self.db_name = db_name
         self.schema = {}
-        self.__read_schema()
+        if not test:
+            self.__read_schema()
 
     def __read_schema(self):
         try:
