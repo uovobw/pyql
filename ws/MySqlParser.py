@@ -16,11 +16,11 @@ class MySQLParser(object):
         self.position = position
         self.index_char = query[position]
         self.config = {
-            'DB_USER': 'root',
-            'DB_PASSWORD': 'toor',
+            'DB_USER': 'changeme',
+            'DB_PASSWORD': 'changeme',
             'DB_HOST': 'localhost',
             'DB_PORT': '3306',
-            'DB_NAME': 'maxmara'
+            'DB_NAME': 'changeme'
         }
         self.query_tokens = nltk.word_tokenize(query)
         self.schema = DbSchema(self.config['DB_USER'], self.config['DB_PASSWORD'], self.config['DB_HOST'],
