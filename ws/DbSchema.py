@@ -1,15 +1,23 @@
-from sqlalchemy import create_engine
+import sqlalchemy
+import logging
 
 class DbSchema(object):
     def __init__(self, db_user, db_password, db_host, db_port, db_name):
+        self.log = logging.getLogger(name = "DbSchema")
         self.db_user = db_user
         self.db_password = db_password
         self.db_host = db_host
         self.db_port = db_port
         self.db_name = db_name
         self.schema = {}
+        self.__read_schema()
 
-        dbConn = create_engine("mysql://%s:%s@%s:%s/%s" % ( self.db_user, self.db_password, self.db_host, self.db_port, self.db_name))
+    def __read_schema(self):
+        try:
+            dbConn = sqlalchemy.create_engine("mysql://%s:%s@%s:%s/%s" % ( self.db_user, self.db_password, self.db_host, self.db_port, self.db_name))
+        except sqlalchemy.OperationalError, e:
+            self.log.error("Failed accessing %s" % e)
+            raise e
         tables = dbConn.execute("show tables")
         for table in tables:
             colNames = dbConn.execute("select column_name from information_schema.columns where table_schema = \'%s\' and table_name = \'%s\'" % (self.db_name, table[0]))
