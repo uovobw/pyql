@@ -4,9 +4,10 @@ import sys
 
 # Local Imports
 from DbSchema import DbSchema
+from MySqlParser import MySqlParser
 
 class MySQLParser(object):
-    def __init__(self, query, position):
+    def __init__(self, query, position, config):
         """
             Input:
                 query:      str
@@ -14,14 +15,8 @@ class MySQLParser(object):
         """
         self.query = query
         self.position = position
+        self.config = config
         self.index_char = query[position]
-        self.config = {
-            'DB_USER': 'changeme',
-            'DB_PASSWORD': 'changeme',
-            'DB_HOST': 'localhost',
-            'DB_PORT': '3306',
-            'DB_NAME': 'changeme'
-        }
         self.query_tokens = nltk.word_tokenize(query)
         self.schema = DbSchema(self.config['DB_USER'], self.config['DB_PASSWORD'], self.config['DB_HOST'],
                     self.config['DB_PORT'], self.config['DB_NAME'])
@@ -73,6 +68,13 @@ qq = """
 
 #for i in xrange(128):
 i = 56
-parse = MySQLSelectParser(qq, i)
+config = {
+    'DB_USER': 'changeme',
+    'DB_PASSWORD': 'changeme',
+    'DB_HOST': 'localhost',
+    'DB_PORT': '3306',
+    'DB_NAME': 'changeme'
+}
+parse = MySQLSelectParser(qq, i, config)
 parse.parse()
 
