@@ -32,3 +32,6 @@ class TestDbSchema(unittest.TestCase):
         self.assertTrue(self.dbschema.columnInTable("ref", "bTable"))
         self.assertTrue(self.dbschema.columnInTable("val", "bTable"))
 
+    def test_str(self):
+        self.assertEqual("bTable: ref,val aTable: name,addr,value", str(self.dbschema))
+

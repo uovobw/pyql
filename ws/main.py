@@ -25,7 +25,7 @@ basic_auth = BasicAuth(app)
 @app.route('/')
 @basic_auth.required
 def root():
-    return 'ANO'
+    return 'Hello'
 
 @app.route("/columns/<t>")
 @basic_auth.required
