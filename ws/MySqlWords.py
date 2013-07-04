@@ -1,6 +1,6 @@
 class MySqlWords(object):
     words = {
-        'reserved_words' : (
+        'reserved_words': (
     'ACCESSIBLE', 'ADD', 'ALL', 'ALTER', 'ANALYZE', 'AND', 'AS', 'ASC', 'ASENSITIVE',
     'BEFORE', 'BETWEEN', 'BIGINT', 'BINARY', 'BLOB', 'BOTH', 'BY',
     'CALL', 'CASCADE', 'CASE', 'CHANGE', 'CHAR', 'CHARACTER', 'CHECK', 'COLLATE', 'COLUMN', 'CONDITION', 'CONSTRAINT', 'CONTINUE', 'CONVERT', 'CREATE', 'CROSS',  'CURRENT_DATE', 'CURRENT_TIME', 'CURRENT_TIMESTAMP', 'CURRENT_USER', 'CURSOR',
@@ -23,6 +23,6 @@ class MySqlWords(object):
     'YEAR_MONTH',
     'ZEROFILL',
     ),
-        'reserved_functions' : (),
-        'stored_procedures' : ()
+        'reserved_functions': (),
+        'stored_procedures': ()
     }
