@@ -24,10 +24,11 @@ class TestMySQLSelectParser(unittest.TestCase):
 
     def test_parse(self):
         qSet = (
-            ('select * from test', set(('test',))),
-            ('select col1, col2 from table1 where col1 = (select id from table2) group by col2 having sum(col2) > 10', set(('table1', 'table2')))
+            ('select * from test', set(('test',)), set()),
+            ('select col1, col2 from table1 where col1 = (select id from table2) group by col2 having sum(col2) > 10', set(('table1', 'table2')), set(("col1", "col2", "id")))
         )
         for each in qSet:
             mySqlSelectParser = self._create_fake_parser_for_query(each[0], 4)
-            assert (set(mySqlSelectParser.parse()) == each[1])
-
+            mySqlSelectParser.parse()
+            assert (set(mySqlSelectParser.getTables()) == each[1])
+            assert (set(mySqlSelectParser.getColumns()) == each[2])

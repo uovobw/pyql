@@ -13,6 +13,8 @@ class MySQLParser(object):
                 query:      str
                 position:   int
         """
+        self.tables = None
+        self.columns = None
         self.query = query
         self.position = position
         self.config = config
@@ -21,15 +23,31 @@ class MySQLParser(object):
         self.schema = DbSchema(self.config['DB_USER'], self.config['DB_PASSWORD'], self.config['DB_HOST'],
                     self.config['DB_PORT'], self.config['DB_NAME'])
 
+    def getColumns(self):
+        return self.columns
+
+    def getTables(self):
+        return self.tables
+
 
 class MySQLSelectParser(MySQLParser):
+    def __init__(self, query, position, config):
+        super(MySQLSelectParser, self).__init__(query, position, config)
+
     def parse(self):
         curr_word, prev_word = self.search_precendent_words()
-        tables = self.search_tables_names()
-        return tables
+        self.tables = self.search_tables_names()
+        self.columns = self.search_column_names()
 
     def search_tables_names(self):
         return [x for x in self.schema.getTables() if x in self.query_tokens]
+
+    def search_column_names(self):
+        cols = set()
+        for table in self.schema.getTables():
+            for col in self.schema.getColumns(table):
+                cols.add(col)
+        return [x for x in cols if x in self.query_tokens]
 
     def search_precendent_words(self):
         if not self.index_char:
@@ -38,7 +56,6 @@ class MySQLSelectParser(MySQLParser):
         char = self.index_char
         position = self.position
         counter = 0
-        exiter = 0
         prev_word_list = []
         while True:
             char = self.query[position]
