@@ -1,9 +1,10 @@
 import sqlalchemy
 import logging
 
+
 class DbSchema(object):
     def __init__(self, db_user, db_password, db_host, db_port, db_name):
-        self.log = logging.getLogger(name = "DbSchema")
+        self.log = logging.getLogger(name="DbSchema")
         self.db_user = db_user
         self.db_password = db_password
         self.db_host = db_host
@@ -14,13 +15,24 @@ class DbSchema(object):
 
     def _read_schema(self):
         try:
-            dbConn = sqlalchemy.create_engine("mysql://%s:%s@%s:%s/%s" % ( self.db_user, self.db_password, self.db_host, self.db_port, self.db_name))
+            dbConn = sqlalchemy.create_engine("mysql://%s:%s@%s:%s/%s" %
+                                              (self.db_user,
+                                               self.db_password,
+                                               self.db_host,
+                                               self.db_port,
+                                               self.db_name))
         except sqlalchemy.OperationalError, e:
             self.log.error("Failed accessing %s" % e)
             raise e
         tables = dbConn.execute("show tables")
         for table in tables:
-            colNames = dbConn.execute("select column_name from information_schema.columns where table_schema = \'%s\' and table_name = \'%s\'" % (self.db_name, table[0]))
+            colNames = dbConn.execute("select column_name\
+                                      from information_schema.columns\
+                                      where table_schema = \'%s\'\
+                                      and table_name = \'%s\'" %
+                                      (self.db_name,
+                                       table[0])
+                                      )
             for column in colNames:
                 tableName = table[0]
                 columnName = column[0]
@@ -52,5 +64,3 @@ class DbSchema(object):
         for k, v in self.schema.iteritems():
             out.append("%s: %s" % (k, ",".join(v)))
         return " ".join(out)
-
-
