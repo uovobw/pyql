@@ -4,7 +4,7 @@ import sys
 
 # Local Imports
 from DbSchema import DbSchema
-from MySqlParser import MySqlParser
+#from MySqlParser import MySqlParser
 
 class MySQLParser(object):
     def __init__(self, query, position, config):
@@ -26,7 +26,7 @@ class MySQLSelectParser(MySQLParser):
     def parse(self):
         curr_word, prev_word = self.search_precendent_words()
         tables = self.search_tables_names()
-        print tables
+        return tables
 
     def search_tables_names(self):
         return [x for x in self.schema.getTables() if x in self.query_tokens]
@@ -58,7 +58,7 @@ class MySQLSelectParser(MySQLParser):
 
         return curr_word, prev_word
 
-
+'''
 qq = """
     select colonna1, colonna2 from prelievi_pf
     where colonna1 = (select id from righe_prelievi_pf)
@@ -76,5 +76,5 @@ config = {
     'DB_NAME': 'changeme'
 }
 parse = MySQLSelectParser(qq, i, config)
-parse.parse()
-
+print parse.parse()
+'''
