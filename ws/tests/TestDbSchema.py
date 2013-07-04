@@ -1,10 +1,12 @@
 import unittest
 from DbSchema import DbSchema
+import mock
 
 class TestDbSchema(unittest.TestCase):
     @classmethod
+    @mock.patch.object(DbSchema,"_read_schema", new = lambda x: None)
     def setUpClass(self):
-        self.dbschema = DbSchema("test", "test", "0.0.0.0", "1234", "test", test = True)
+        self.dbschema = DbSchema("test", "test", "0.0.0.0", "1234", "test")
         self.tables = ["aTable", "bTable"]
         self.aCols = ["name", "addr", "value"]
         self.bCols = ["ref", "val"]

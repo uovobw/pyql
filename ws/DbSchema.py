@@ -2,7 +2,7 @@ import sqlalchemy
 import logging
 
 class DbSchema(object):
-    def __init__(self, db_user, db_password, db_host, db_port, db_name, test = False):
+    def __init__(self, db_user, db_password, db_host, db_port, db_name):
         self.log = logging.getLogger(name = "DbSchema")
         self.db_user = db_user
         self.db_password = db_password
@@ -10,10 +10,9 @@ class DbSchema(object):
         self.db_port = db_port
         self.db_name = db_name
         self.schema = {}
-        if not test:
-            self.__read_schema()
+        self._read_schema()
 
-    def __read_schema(self):
+    def _read_schema(self):
         try:
             dbConn = sqlalchemy.create_engine("mysql://%s:%s@%s:%s/%s" % ( self.db_user, self.db_password, self.db_host, self.db_port, self.db_name))
         except sqlalchemy.OperationalError, e:
