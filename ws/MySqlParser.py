@@ -6,6 +6,7 @@ import sys
 from DbSchema import DbSchema
 #from MySqlParser import MySqlParser
 
+
 class MySQLParser(object):
     def __init__(self, query, position, config):
         """
@@ -20,8 +21,11 @@ class MySQLParser(object):
         self.config = config
         self.index_char = query[position]
         self.query_tokens = nltk.word_tokenize(query)
-        self.schema = DbSchema(self.config['DB_USER'], self.config['DB_PASSWORD'], self.config['DB_HOST'],
-                    self.config['DB_PORT'], self.config['DB_NAME'])
+        self.schema = DbSchema(self.config['DB_USER'],
+                               self.config['DB_PASSWORD'],
+                               self.config['DB_HOST'],
+                               self.config['DB_PORT'],
+                               self.config['DB_NAME'])
 
     def getColumns(self):
         return self.columns
